@@ -1,19 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= camp.title%> </title>
-</head>
-<body>
+<% layout('/layouts/boilerplate') %> 
     <h1><%= camp.title%> </h1>
     <p><%= camp.location %> </p>
-
+    <img src="<%= camp.img %>"alt="">
+    <p><%=camp.description%></p>
     <p><a href="/campgrounds/">All Campgrounds</a></p>
     <p><a href="/campgrounds/<%=camp.id%>/edit">Edit</a></p>
     <form action="/campgrounds/<%=camp.id%>?_method=DELETE" method="POST">
     <button>Delete</button>
     </form>
-</body>
-</html>

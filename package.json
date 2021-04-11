@@ -1,25 +1,19 @@
 {
-  "name": "yelp-camp",
+  "name": "YelpCamp",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Ishaan-10/Yelp-Camp.git"
-  },
-  "author": "Ishaan Bhola",
+  "keywords": [],
+  "author": "",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/Ishaan-10/Yelp-Camp/issues"
-  },
-  "homepage": "https://github.com/Ishaan-10/Yelp-Camp#readme",
   "dependencies": {
-    "ejs": "^3.1.6",
+    "ejs": "^3.1.5",
+    "ejs-mate": "^3.0.0",
     "express": "^4.17.1",
     "method-override": "^3.0.0",
-    "mongoose": "^5.12.3"
+    "mongoose": "^5.10.4"
   }
 }
