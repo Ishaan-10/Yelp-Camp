@@ -27,7 +27,7 @@
         <h2>Leave a Review</h2>
         <hr>
 
-        <form action="/campgrounds/<%=campground.id%>/review" class="mb-5 validated-form" method="POST" novalidate>
+        <form action="/campgrounds/<%=campground.id%>/reviews" class="mb-5 validated-form" method="POST" novalidate>
             <div class="mb-2">
                 <label for="rating" class="form-label">Rating</label>
                 <input type="range" min='1' max='5' name="stars" id="rating" class="form-range">
