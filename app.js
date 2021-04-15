@@ -6,6 +6,7 @@ const methodOverride = require('method-override');
 const Campground = require('./models/campground');
 const catchAsync = require('./utils/catchAsync');
 const ExpressError = require('./utils/expressError');
+const Review = require('./models/review');
 
 mongoose.connect('mongodb://localhost:27017/yelp-camp', {
     useNewUrlParser: true,
@@ -28,7 +29,6 @@ app.set('views', path.join(__dirname, 'views'))
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 
-
 app.get('/', (req, res) => {
     res.render('home')
 });
@@ -44,14 +44,30 @@ app.post('/campgrounds', catchAsync(async (req, res,next) => {
         const campground = new Campground(req.body.campground);
         await campground.save();
         res.redirect(`/campgrounds/${campground._id}`)
-
 }));
 
 app.get('/campgrounds/:id', async (req, res,) => {
-    const campground = await Campground.findById(req.params.id)
+    const campground = await Campground.findById(req.params.id).populate('reviews');
     res.render('campgrounds/show', { campground });
 });
 
+app.post('/campgrounds/:id/review',async (req,res) => {
+    const camp = await Campground.findById(req.params.id)
+    const {stars , review } = req.body;
+    const newReview = new Review({ body:review , rating:stars});
+    camp.reviews.push(newReview);
+    await newReview.save();
+    await camp.save();
+    res.redirect(`/campgrounds/${camp.id}/`)
+});
+app.delete('/campgrounds/:id/reviews/:reviewid/',async (req,res)=>{
+    const {id , reviewid} = req.params;
+    const review = await Review.findByIdAndDelete(reviewid);
+    const camp = await Campground.findByIdAndUpdate(id,{
+        $pull:{reviews:reviewid}
+    });
+    res.redirect(`/campgrounds/${id}`);
+})
 app.get('/campgrounds/:id/edit', async (req, res) => {
     const campground = await Campground.findById(req.params.id)
     res.render('campgrounds/edit', { campground });
