@@ -5,6 +5,9 @@ const ExpressError = require('../utils/expressError');
 const Campground = require('../models/campground');
 const passport = require('passport');
 const {isLoggedIn , isAuthor} = require('../middleware');
+const multer = require('multer');
+const {storage} = require('../cloudinary/index');
+const upload = multer({storage})
 
 router.get('/', async (req, res) => {
     const campgrounds = await Campground.find({});
@@ -14,10 +17,15 @@ router.get('/', async (req, res) => {
 router.get('/new',isLoggedIn, (req, res) => {
     res.render('campgrounds/new');
 });
-router.post('',isLoggedIn, catchAsync(async (req, res,next) => {
+router.post('',isLoggedIn, upload.array('image'),catchAsync(async (req, res,next) => {
         const campground = new Campground(req.body.campground);
         campground.author = req.user.id;
+        campground.images = req.files.map(f => ({
+            url:f.path,
+            filename:f.filename
+        }))
         await campground.save();
+        console.log(campground);
         req.flash('success','Successfully made a new campground');
         res.redirect(`/campgrounds/${campground._id}`);
 }));
