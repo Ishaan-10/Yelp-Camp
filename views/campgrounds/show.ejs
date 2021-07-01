@@ -1,8 +1,9 @@
 <% layout('layouts/boilerplate')%>
     <link rel="stylesheet" href="/css/stars.css">
     <div class="row">
-        <div class="col-6">
 
+
+        <div class="col-6">
             <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
                 <div class="carousel-inner">
                     <% for(let i=0;i< campground.images.length;i++){ %>
@@ -64,7 +65,7 @@
                         <!-- <div class="mb-2">
                 <label for="rating" class="form-label">Rating</label>
                 <input type="range" min='1' max='5' name="stars" id="rating" class="form-range">
-            </div> -->
+            </div> --> 
                         <fieldset class="starability-basic">
                             <legend>Rating:</legend>
                             <input type="radio" id="no-rate" class="input-no-rate" name="stars" value="0" checked
@@ -90,7 +91,12 @@
                         </div>
                         <button class="btn btn-success">Submit</button>
                     </form>
-                    <% } %>
+                    <% }else{ %>
+                        <% if(campground.reviews.length>0){ %>
+                            <h3>Reviews</h3>
+                        <% } %>  
+
+                        <% } %> 
                         <% for(let review of campground.reviews){ %>
                             <div class="card mb-3">
                                 <div class="mb-2 card-body">
@@ -112,5 +118,12 @@
                                 </div>
                             </div>
                             <% } %>
+                            <div id='map' style='width: 600x; height: 350px;'></div>
             </div>
+            
+            
         </div>
+<script>
+    let campground= '<%-JSON.stringify(campground)%>'
+</script>
+<script src="/js/showPageMap.js"></script>
